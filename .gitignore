@@ -1,1 +1,6 @@
 *.pyc
+*.xml
+*.iml
+.project
+.pydevproject
+.idea/
