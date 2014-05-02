@@ -1,0 +1,36 @@
+# Meta information, this is a comment-line
+meta:type = graph
+meta:info = weighted, metric
+
+# Start data
+data:start
+	# Start vertices
+	vertices:start
+		# Vertices are on the format {i?, weight?, position?}, all optional
+		# If ID is to be specified and weight and position to be set do vertex = {weight = <x>, <y>}
+		# If ID is not specified it will be autoindexed
+		# Weight only needs to be specified if meta:info = weight is set
+		# Position only needs to be specified if meta:info = metric is set
+		# Position is on the form (x,y), default is (1,1) (i.e if not specified)
+		vertex = {1, 2, (2,3)}
+		vertex = {2, 3, (2,2)}
+		vertex = {3, 0.5, (1,1)}
+		vertex = {4, 0.2, (4,4)}
+		vertex = {5, 0.5, (2,2)} # This is a mean comment line to make sure the parser isnt fucking around
+	vertices:end
+
+	edges:start
+		# Edges are on the format (v1, v2, weight?)
+		# Where v1 and v2 are the endpoints of the edge
+		# If weight is not specified it will be set to 1 if meta:info = weighted is set
+		# Edges will be auto-indexed
+		edge = {1, 2}
+		edge = {2, 3}
+		edge = {3, 4}
+		edge = {4, 5}
+		edge = {3, 5}
+		edge = {2, 4}
+	edges:end
+data:end
+
+ 

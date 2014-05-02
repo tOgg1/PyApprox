@@ -1,0 +1,28 @@
+meta:type = set
+meta:info = unweighted
+
+data:start
+	elements:start
+		# element = id()
+		element = {1}
+		element = {2}
+		element = {3}
+		element = {4}
+		element = {5}
+		element = {6}
+		element = {7}
+		element = {8}
+		element = {9}
+		element = {10}
+	elements:end
+
+	# In any document you can have several datadeclarations, like here
+	# On load this will return two sets
+	set:start
+		elements = {1-3}
+	set:end
+
+	set:start
+		elements = {1, 5-6}
+	set:end
+data:end

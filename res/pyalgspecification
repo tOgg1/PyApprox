@@ -1,0 +1,60 @@
+# Comment													*
+
+(General structuring if variables and objects)
+(Objects are defined as follows)
+
+objectname:objectflag ( = objectvalue)?
+
+(there are two types of objects, scopeobjects and infoobjects)
+(scopeobjects can ONLY have an openflag and a start flag)
+(i.e. objectname:start/objectname:end) 
+
+(Elements are defined as follows)
+
+element = {value_i? = <value>, +}
+
+(value_i is the identifier and does not have to be specified,)
+(as it is often implicitly defined (see below))
+
+Allowed values
+===============
+meta:info = ? 												0-1
+==============
++ for type = graph					
+	- weighted 												*
+	- unweighted (default)											*
+	- directed												*
+	- undirected											*
+	- metric 	(not default)
++ for type = set
+	- weighted
+	- unweighted (default)
+
+Allowed values
+===============
+meta:type = ?												0-1
+===============
++ graph														*
++ set														*
++ machine													*
+
+data:start													+
+(for type = set)
+	elements:start											0-1
+		element = {id, value?} 								*
+	elements:end											0-1
+
+	set:start												+
+		elements = {e1, e2, e3 .... en} | 
+				   {e{1-n}} | {e1, e{a-b}}					*
+	set:end													+
+(for type = graph)
+	vertices:start											1
+		vertex = {id?, weight?, (posx, posy)?}					*
+	vertices:end											1
+
+	edges:start												
+		edge = {v1, v2, weight?}							*
+	edges:end
+data:end 													+
+
