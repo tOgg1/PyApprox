@@ -1,0 +1,9 @@
+
+# Five colours should be enough
+COLOR_NONE = 0
+COLOR_BLUE = 1
+COLOR_RED = 2
+COLOR_GREEN = 3
+COLOR_PURPLE = 4
+COLOR_YELLOW = 5
+COLOR_BLACK = 6
