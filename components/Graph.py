@@ -21,14 +21,6 @@ edgeLegalColors = ["black", "blue", "green", "purple", "red", "yellow"]
 
 edgeElementOrder = {0 : "v1", 1: "v2", 2 : "weight", 3: "color"}
 
-idPattern = re.compile("[iI][dD]?")
-weightPattern = re.compile("[wW][eE]?[iI]?[gG]?[hH]?[tT]?")
-positionPattern = re.compile("[pP][oO][sS][iI][tT][iI][oO][nN]")
-colorPattern = re.compile("[cC][oO][lL][oO][rR]")
-
-v1Pattern = re.compile("([vV][1])|([vV][eE][rR]?[tT]?[eE]?[xX]?[1])")
-v2Pattern = re.compile("([vV][2])|([vV][eE][rR]?[tT]?[eE]?[xX]?[2])")
-
 GRAPH_INFO_WEIGHTED 	= 1
 GRAPH_INFO_UNWEIGHTED 	= 2
 GRAPH_INFO_DIRECTED 	= 4
@@ -41,9 +33,6 @@ def loadGraph(filePath):
 	graphStructure = loadFile(filePath)
 
 	graph = Graph()
-
-	infoObjects = []
-	scopeObjects = []
 
 	infoObjects, scopeObjects = graphStructure.separate()
 

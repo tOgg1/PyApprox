@@ -50,3 +50,18 @@ def colorToString(color):
 	elif(color == COLOR_BLACK):
 		return "Black"
 	return "None"
+
+# REGEX-patterns for parsing
+
+idPattern = re.compile("[iI][dD]?")
+weightPattern = re.compile("[wW][eE]?[iI]?[gG]?[hH]?[tT]?")
+positionPattern = re.compile("[pP][oO][sS][iI][tT][iI][oO][nN]")
+colorPattern = re.compile("[cC][oO][lL][oO][rR]")
+
+v1Pattern = re.compile("([vV][1])|([vV][eE][rR]?[tT]?[eE]?[xX]?[1])")
+v2Pattern = re.compile("([vV][2])|([vV][eE][rR]?[tT]?[eE]?[xX]?[2])")
+
+singlePattern = re.compile("[sS][iI][nN]?[gG]?[lL]?[eE]?")
+sequencePattern = re.compile("[sS][eE][qQ][uU][eE][nN][cC][eE]")
+
+sequenceValuePattern = re.compile("(\d)+-(\d)+")

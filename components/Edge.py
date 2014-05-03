@@ -15,7 +15,6 @@ class Edge(Component.Component):
 		self.weight = 1
 		self.color = COLOR_NONE
 
-
 	def containsVertex(self, vertex):
 		return vertices[0] == vertex or vertices[1] == vertex
 

@@ -47,7 +47,7 @@ data:start													+
 
 	set:start												+
 		elements = {e1, e2, e3 .... en} | 
-				   {e{1-n}} | {e1, e{a-b}}					*
+				   {e1-en} | {e1, ea-eb}					*
 	set:end													+
 (for type = graph)
 	vertices:start											1

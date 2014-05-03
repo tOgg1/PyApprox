@@ -23,5 +23,15 @@ def main():
 	for v in graph.vertices:
 		print v.toString()
 
+	sets = loadSet("res/set_example.algdata")
+
+	for set in sets: 
+		usets = set.getSetElements()
+		elements = set.getNonSetElements()
+		for s in usets:
+			print s
+		for e in elements:
+			print e
+
 if __name__ == "__main__":
 	main()
