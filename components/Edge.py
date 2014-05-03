@@ -1,5 +1,6 @@
 from Vertex import *
 from Util import *
+import Component
 
 class Edge(Component.Component):
 

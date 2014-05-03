@@ -1,6 +1,6 @@
 import sys
 
-sys.path.append('C:/python/files/folder1')
+sys.path.append('..')
 
 import re
 
