@@ -21,11 +21,12 @@ Allowed values
 meta:info = ? 												0-1
 ==============
 + for type = graph					
-	- weighted 												*
-	- unweighted (default)											*
-	- directed												*
-	- undirected											*
-	- metric 	(not default)
+	- weighted 												0-1
+	- unweighted (default)									0-1
+	- directed												0-1
+	- undirected											0-1
+	- metric 	(not default)								0-1
+	- colored	(not default)  								0-1
 + for type = set
 	- weighted
 	- unweighted (default)
@@ -50,7 +51,7 @@ data:start													+
 	set:end													+
 (for type = graph)
 	vertices:start											1
-		vertex = {id?, weight?, (posx, posy)?}					*
+		vertex = {id?, weight?, (posx, posy)?,}					*
 	vertices:end											1
 
 	edges:start												

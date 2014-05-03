@@ -1,22 +1,28 @@
 # Meta information, this is a comment-line
 meta:type = graph
-meta:info = weighted, metric
+meta:info = weighted, undirected, metric
 
 # Start data
 data:start
 	# Start vertices
 	vertices:start
-		# Vertices are on the format {i?, weight?, position?}, all optional
+		# Vertices are on the format {id?, weight?, position?, color?}, all optional
 		# If ID is to be specified and weight and position to be set do vertex = {weight = <x>, <y>}
 		# If ID is not specified it will be autoindexed
 		# Weight only needs to be specified if meta:info = weight is set
 		# Position only needs to be specified if meta:info = metric is set
-		# Position is on the form (x,y), default is (1,1) (i.e if not specified)
-		vertex = {1, 2, (2,3)}
-		vertex = {2, 3, (2,2)}
-		vertex = {3, 0.5, (1,1)}
-		vertex = {4, 0.2, (4,4)}
-		vertex = {5, 0.5, (2,2)} # This is a mean comment line to make sure the parser isnt fucking around
+		# Position is on the form (x y), default is (1 1) (i.e if not specified)
+		# Color is represented by a string literal. I.e. (red, green, blue)
+		vertex = {1, 2, (2, 3), green} 
+		
+		# ID can be written (i = , I =, iD = , Id = , ID =, id = ). Same goes for other variables
+		vertex = {i = 2, weiG = 3, p = (2, 2)} 
+		
+		# Every value can be explicitly defined
+		vertex = {id = 3, weight = 0.5, position = (1, 1), color = blue} 
+		
+		vertex = {4, 0.2, (4, 4)}
+		vertex = {5, 0.5, (2, 2)} # This is a mean comment line to make sure the parser isnt fucking around
 	vertices:end
 
 	edges:start
@@ -26,7 +32,7 @@ data:start
 		# Edges will be auto-indexed
 		edge = {1, 2}
 		edge = {2, 3}
-		edge = {3, 4}
+		edge = {v1 = 3, v2 = 4, weight = 1.2, color = blue}
 		edge = {4, 5}
 		edge = {3, 5}
 		edge = {2, 4}

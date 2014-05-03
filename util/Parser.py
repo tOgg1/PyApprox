@@ -2,6 +2,9 @@ import os
 import re
 import copy
 
+OBJECT_SCOPED = 1
+OBJECT_INFO = 2
+
 class ParserObj:
 	pass
 
@@ -15,10 +18,23 @@ class ObjectStructure(ParserObj):
 	def removeObject(self, object):
 		self.objects.remove(object)
 
+	def separate(self):
+		scoped = []
+		info = []
+
+		for object in self.objects:
+			if(object.type == OBJECT_SCOPED):
+				scoped.append(object)
+			else:
+				info.append(object)
+
+		return info, scoped
+
 class Object(ParserObj):
 	def __init__(self, name, flag):
 		self.name = name
 		self.flag = flag
+		self.type = OBJECT_INFO # Default
 		self.values = []
 
 	def addValue(self, value):
@@ -30,7 +46,7 @@ class Element(ParserObj):
 		self.values = []
 
 	def addValue(self, value):
-		self.values.appned(value)
+		self.values.append(value)
 
 def loadFile(filename):
 	if not os.path.isfile(filename):
@@ -73,8 +89,7 @@ def loadFile(filename):
 	patternObject = re.compile("^[a-zA-Z]+:[a-zA-Z]+( ?= ?([a-zA-Z]*,? ?)+)?$");
 	patternElement = re.compile("^[a-zA-Z]+ ?=(.*)$") 
 	patternScoped = re.compile("^[a-zA-Z]+:[a-zA-Z]+")
-	patternMeta = re.compile("meta:(.*)$")
-	patternData = re.compile("data:(.*)$")
+	patternInfo = re.compile("meta:(.*)$")
 
 	metaObjects = []
 	scopedObjects = []
@@ -82,7 +97,7 @@ def loadFile(filename):
 	scopedObject = None
 	counter = 0
 
-	# The files are parsed from the beginning to the end
+	# The files are parsed from the beginning to the end, never looking back
 	for line in content:
 		counter = counter+1
 
@@ -90,7 +105,7 @@ def loadFile(filename):
 		if(patternObject.match(line)):
 			myObject = parseObject(line)
 
-			if(patternMeta.match(line)):
+			if(patternInfo.match(line)):
 				metaObjects.append(myObject)
 				continue
 			# If we have a scoped-object
@@ -118,49 +133,94 @@ def loadFile(filename):
 				raise Exception(lineDecl(filename, counter)  + "Invalid object declaration")
 		# We have an element
 		elif(patternElement.match(line)):
-			if(scopedObject)
+			if(scopedObject == None):
+				raise Exception(lineDecl(filename, counter) + "Stray element discovered. Please make sure all elements are enclosed in a scoped object")
 			element = parseElement(line)
+			scopedObject.addValue(element)
 			continue
 		else:
 			raise Exception(lineDecl(filename, counter)  +"Invalid symbol near " + line +". Line does not start with an element or object-declaration")
 
 	for object in metaObjects:
-		print object
+		structure.addObject(object)
 
 	for object in scopedObjects:
-		print object
-	# # Debug
-	# for line in content:
-	# 	print line
+		structure.addObject(object)
 
-def parseObject(metaObject):
-	if not isinstance(metaObject, basestring):
+	return structure
+
+def parseElement(element):
+	if not isinstance(element, basestring):
+		raise Exception("Element passed in to parseElement was not a string, is it already parsed?")
+
+	splitOne = element.replace("\t", "").split("=", 1)
+
+	if(len(splitOne) == 0):
+		raise Exception("Element did not have value, or name: " + element)
+
+	name = splitOne[0].strip(" ")
+
+	patternBracket = re.compile(" *[{](.*)[}] *")
+
+	if not(patternBracket.match(splitOne[1])):
+		raise Exception("Elements value was not correctly formatted: " + splitOne[1])
+
+	if(len(patternBracket.findall(splitOne[1])) > 1):
+		raise Exception("Elements")
+	rawValues = splitOne[1].replace("{", "").replace("}", "")
+
+	elm = Element(name)
+
+	rawValuesArray = rawValues.split(",")
+
+	temp = ""
+	i = 0
+	while i < len(rawValuesArray):
+		try:
+			# Parentheses can span several commas
+			if("(" in rawValuesArray[i]):
+				temp = rawValuesArray[i]
+				while not(")" in rawValuesArray[i]):
+					i = i+1
+					temp += "," + rawValuesArray[i]
+					if(i > len(rawValuesArray)-1):
+						raise Exception("Element contained a value with an unclosed parantheses")
+				elm.addValue(temp)
+				temp = ""
+				continue
+			elm.addValue(rawValuesArray[i])
+		finally:
+				i = i+1			
+	return elm
+
+def parseObject(someObject):
+	if not isinstance(someObject, basestring):
 		raise Exception("Object was not passed in as a string, is it already parsed?")
 
-	splitOne = metaObject.split(":")
+	splitOne = someObject.split(":")
 
 	if(len(splitOne) == 0):
 		raise Exception("Invalid object passed into parseObject method. Expected \"objectname:objectflag( ?= ?(values)+)?, got: " + str(metaObject))
 
-	splitTwo = splitOne[1].split("=")
+	splitTwo = splitOne[1].split("=", 1)
 
 	for i in range(len(splitTwo)):
-		splitTwo[i] = splitTwo[i].strip(" ").strip("\n")
+		splitTwo[i] = splitTwo[i].replace(" ", "").replace("\n", "")
 
 	objectName = splitOne[0]
-	objectFlag = splitTwo[0].strip(" ")
+	objectFlag = splitTwo[0].replace(" ", "")
 
 	object = Object(objectName, objectFlag)
 
 	if(len(splitTwo) > 1):
-		objectValues = splitTwo[1].strip(" ").split(",")
+		objectValues = splitTwo[1].replace(" ", "").split(",")
 		for value in objectValues:
 			object.addValue(value)
+	else:
+		object.type = OBJECT_SCOPED
 
 	return object
 
 def lineDecl(f, c):
 	return str(f)+", "+str(c) +": "
 
-loadFile("res/graph_one.algdata")
-loadFile("res/set_example.algdata")
