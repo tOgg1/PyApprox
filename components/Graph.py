@@ -29,8 +29,8 @@ GRAPH_INFO_METRIC 		= 16
 GRAPH_INFO_COLORED 		= 32
 
 
-def loadGraph(filePath):
-	graphStructure = loadFile(filePath)
+def loadGraph(filename):
+	graphStructure = loadFile(filename)
 
 	graph = Graph()
 
@@ -252,3 +252,23 @@ class Graph:
 
 	def edgeCount(self):
 		return len(self.edges)
+
+	def toString(self):
+		ret = "Graph.properties = {\n";
+		ret += "\tVertexCount:" + str(self.vertexCount()) + "\n"
+		ret += "\tEdgeCount:" + str(self.edgeCount()) + "\n"
+		ret += "\tIsWeighted, isUnweighted: " +  str(self.isWeighted()) +  str(self.isUnweighted()) + "\n"
+		ret += "\tIsDirected, isUndirected: " + str(self.isDirected()) + str(self.isUndirected()) + "\n"
+		ret += "\tIsMetric:" + str(self.isMetric()) + "\n"
+		ret += "\tIsColored:" + str(self.isColored()) + "\n"
+		ret += "}"
+
+		ret += "\nGraph.vertices = {"
+		for vertex in self.vertices:
+			ret += "\n\t"+ vertex.toString()
+
+		ret += "\n}\nGraph.edges = {"
+		for edge in self.edges:
+			ret += "\n\t" + edge.toString()
+		ret += "\n}"
+		return ret

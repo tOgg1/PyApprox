@@ -10,7 +10,12 @@ from Set import *
 from Parser import *
 from Graph import *
 
+from TravellingSalesman import *
+
 def main():
+	printDebugGraph(loadAndSolveTSP("res/graph_one.algdata"))
+
+def testLoad():
 	graph = loadGraph("res/graph_one.algdata")
 
 	print "VerteCount:", graph.vertexCount()
@@ -32,6 +37,9 @@ def main():
 			print s
 		for e in elements:
 			print e
+
+def printDebugGraph(graph):
+	print graph.toString()
 
 if __name__ == "__main__":
 	main()

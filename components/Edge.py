@@ -24,3 +24,6 @@ class Edge(Component.Component):
 	def setVertexTwo(self, vertex):
 		self.vertices[1] = vertex
 
+	def toString(self):
+		return "Edge = {vertex1 = " + str(self.vertices[0].id) + ", vertex2 = " + str(self.vertices[1].id) + ", weight = " + str(self.weight) + ", color = " + colorToString(self.color) + "}" 
+

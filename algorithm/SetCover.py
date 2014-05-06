@@ -10,5 +10,4 @@ def minimumSetCoverWeighted(BaseSet, SubSets, weights):
 
 def minimumSetCoverUnweighted(BaseSet, Subsets):
 	#TODO
-
     return BaseSet
