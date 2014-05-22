@@ -9,9 +9,9 @@ from Edge import *
 from Util import *
 
 """
-Finds the closest two nodes in a graph
+Finds the closest two vertices in a graph by euclidean distance
 """
-def findClosestNodesEuclidean(graph):
+def findClosestVerticesEuclidean(graph):
 	a, b = None, None
 	distance = 0xFFFFFFFF
 	
@@ -24,7 +24,10 @@ def findClosestNodesEuclidean(graph):
 
 	return a, b
 
-def findClosestNodes(graph):
+"""
+Finds the closest two vertices in a graph
+"""
+def findClosestVertices(graph):
 	a, b = None, None
 	distance = 0xFFFFFFFF
 
@@ -35,7 +38,10 @@ def findClosestNodes(graph):
 			distance = dis
 	return a, b
 
-def findClosestNodeTo(graph, vertex):
+"""
+Finds the closest vertex in a graph to an input vertex
+"""
+def findClosestVertexTo(graph, vertex):
 	a = None
 	distance = 0xFFFFFFFF
 
@@ -51,11 +57,10 @@ def findClosestNodeTo(graph, vertex):
 			distance = edge.length()
 	return a
 
-	
 """
-Finds the closest node in a graph to an input node 
+Finds the closest vertex in a graph to an input vertex by euclidean distance
 """
-def findClosestNodeToEuclidean(graph, vertex):
+def findClosestVertexToEuclidean(graph, vertex):
 	a = None
 	distance = 0xFFFFFFFF
 
@@ -67,6 +72,55 @@ def findClosestNodeToEuclidean(graph, vertex):
 
 	return a
 
+"""
+Finds the closest vertex in a graph to an input vertex that is not in the vertexSet
+"""
+def findClosestVertexToNotIn(graph, vertex, vertexSet):
+	a = None
+	distance = 0xFFFFFFFF
+
+	neighbors = graph.getNeighborEdges(vertex)
+
+	if(neighbors == None):
+		return None
+
+	for edge in neighbors:
+		if(edge.length() < distance):
+			b, c = edge.getVertices()
+			if(b == vertex):
+				if(c in vertexSet):
+					continue
+				else:
+					a = c
+			else:
+				if(b in vertexSet):
+					continue
+				else:
+					a = b
+			distance = edge.length()
+	return a
+
+def findClosestVerticesFromPartition(graph, vertexSetOne, vertexSetTwo):
+	if not(graph.containsAllVertices(vertexSetOne) and graph.containsAllVertices(vertexSetTwo)):
+		return None
+
+	edges = graph.edges
+
+	a, b = None, None
+	distance = 0xFFFFFFFF
+	
+	for edge in edges:
+		c, d = edge.getVertices()
+
+		if not((c in vertexSetOne and d in vertexSetTwo) or (c in vertexSetTwo and d in vertexSetOne)):
+			continue
+
+		if(edge.length() < distance):
+			a, b = c, d
+			distance = edge.length()
+
+	return a, b
+
 class Graph(Component.Component):
 
 	def __init__(self, vertices = None, edges = None, info = None):
@@ -76,6 +130,9 @@ class Graph(Component.Component):
 			self.info = GRAPH_INFO_UNDIRECTED | GRAPH_INFO_UNWEIGHTED # Default
 		self.vertices = vertices
 		self.edges = edges
+
+	def createSubgraphFromVSet(self, vertexSet):
+		pass
 
 	def isWeighted(self):
 		return bool(self.info & GRAPH_INFO_WEIGHTED)
@@ -122,6 +179,20 @@ class Graph(Component.Component):
 				ret += "\n\t" + edge.toString()
 			ret += "\n}"
 		return ret
+
+	def containsAllVertices(self, vertexSet):
+		for v in vertexSet:
+			if not v in self.vertices:
+				return False
+
+		return True
+
+	def containsAllEdges(self, edgeSet):
+		for e in edgeSet:
+			if not e in self.edges:
+				return False
+
+		return True
 
 	def getNeighbors(self, vertex):
 		if not(vertex in self.vertices):

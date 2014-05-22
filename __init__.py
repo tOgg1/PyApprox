@@ -19,8 +19,8 @@ from TravellingSalesman import *
 from KCenter import *
 
 def main():
-	testLoad()
-	
+	testTravellingSalesman()
+
 def testKCenter():
 	vertices = []
 
@@ -51,6 +51,14 @@ def testLoad():
 			print s
 		for e in elements:
 			print e
+
+def testTravellingSalesman():
+	graph = loadGraph("res/graph_test.algdata")
+
+	tsp = solveTravellingSalesmanNearestAddition(graph)
+
+	for v in tsp:
+		print v.toString()
 
 def printDebugGraph(graph):
 	print graph.toString()
