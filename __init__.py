@@ -20,6 +20,7 @@ from KCenter import *
 
 def main():
 	testLoad()
+	
 def testKCenter():
 	vertices = []
 

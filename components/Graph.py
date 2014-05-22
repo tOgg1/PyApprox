@@ -50,6 +50,8 @@ def findClosestNodeTo(graph, vertex):
 			a = (c if a != c else b)
 			distance = edge.length()
 	return a
+
+	
 """
 Finds the closest node in a graph to an input node 
 """
