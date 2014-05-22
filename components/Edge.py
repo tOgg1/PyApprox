@@ -14,6 +14,7 @@ class Edge(Component.Component):
 
 		self.weight = 1
 		self.color = COLOR_NONE
+		self.euclidean = True
 
 	def containsVertex(self, vertex):
 		return vertices[0] == vertex or vertices[1] == vertex
@@ -26,4 +27,10 @@ class Edge(Component.Component):
 
 	def toString(self):
 		return "Edge = {vertex1 = " + str(self.vertices[0].id) + ", vertex2 = " + str(self.vertices[1].id) + ", weight = " + str(self.weight) + ", color = " + colorToString(self.color) + "}" 
+
+	def length(self):
+		return (vdistance(self.vertices[0], self.vertices[1]) if self.euclidean else self.weight)
+
+	def getVertices(self):
+		return self.vertices
 

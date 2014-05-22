@@ -3,27 +3,40 @@ import sys
 sys.path.append('components')
 sys.path.append('algorithm')
 sys.path.append('util')
+sys.path.append('')
+
+import random
 
 from Element import *
 from Vertex import *
 from Set import *
 from Parser import *
 from Graph import *
+from ParseSet import *
+from ParseGraph import *
 
 from TravellingSalesman import *
+from KCenter import *
 
 def main():
-	printDebugGraph(loadAndSolveTSP("res/graph_one.algdata"))
+	testLoad()
+def testKCenter():
+	vertices = []
+
+	for i in range(1, 1000):
+		vertex = Vertex()
+		vertex.pos.x = random.randint(-100, 100)
+		vertex.pos.y = random.randint(-100, 100)
+		vertices.append(vertex)
+
+	kSet = solveKCenter(vertices, 10)
+	graph = Graph(kSet) # For debugging
+	print graph.toString()
 
 def testLoad():
 	graph = loadGraph("res/graph_one.algdata")
 
-	print "VerteCount:", graph.vertexCount()
-	print "EdgeCount:", graph.edgeCount()
-	print "IsWeighted, isUnweighted: ", graph.isWeighted(), graph.isUnweighted()
-	print "IsDirected, isUndirected: ", graph.isDirected(), graph.isUndirected()
-	print "IsMetric:", graph.isMetric()
-	print "IsColored:", graph.isColored()
+	print graph.toString()
 
 	for v in graph.vertices:
 		print v.toString()

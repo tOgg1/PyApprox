@@ -1,6 +1,7 @@
 import re
 
-# Five colours should be enough
+## COLOR INFORMATION
+
 COLOR_NONE = 0
 COLOR_BLUE = 1
 COLOR_RED = 2
@@ -16,6 +17,56 @@ greenPattern = re.compile("[gG][rR][eE]?[eE]?[nN]?")
 purplePattern = re.compile("[pP][uU]?[rR]?[pP]?[lL]?[eE]?")
 yellowPattern = re.compile("[yY][eE]?[lL]?[lL]?[eE]?[wW]?")
 blackPattern = re.compile("[bB][lL][aA]?[cC]?[kK]?")
+
+
+## GENERAL REGEX-PATTERNS FOR PARSING
+
+idPattern = re.compile("[iI][dD]?")
+weightPattern = re.compile("[wW][eE]?[iI]?[gG]?[hH]?[tT]?")
+positionPattern = re.compile("[pP][oO][sS][iI][tT][iI][oO][nN]")
+colorPattern = re.compile("[cC][oO][lL][oO][rR]")
+
+v1Pattern = re.compile("([vV][1])|([vV][eE][rR]?[tT]?[eE]?[xX]?[1])")
+v2Pattern = re.compile("([vV][2])|([vV][eE][rR]?[tT]?[eE]?[xX]?[2])")
+
+singlePattern = re.compile("[sS][iI][nN]?[gG]?[lL]?[eE]?")
+sequencePattern = re.compile("[sS][eE][qQ][uU][eE][nN][cC][eE]")
+
+sequenceValuePattern = re.compile("(\d)+-(\d)+")
+
+## GRAPH LOADING METADATA
+
+legalGraphInfoData = ["meta"]
+legalGraphInfoFlags = {"meta" : ["type", "info"]}
+legalGraphScopes = ["data", "vertices", "edges"]
+legalGraphElements = {"data": [], "vertices" : ["vertex"], "edges" : ["edge"]}
+
+vertexElementOrder = {0 : "id", 1 : "weight", 2 : "position", 3 : "color"}
+vertexLegalColors = ["black", "blue", "green", "purple", "red", "yellow"]
+edgeLegalColors = ["black", "blue", "green", "purple", "red", "yellow"]
+
+edgeElementOrder = {0 : "v1", 1: "v2", 2 : "weight", 3: "color"}
+
+GRAPH_INFO_WEIGHTED 	= 1
+GRAPH_INFO_UNWEIGHTED 	= 2
+GRAPH_INFO_DIRECTED 	= 4
+GRAPH_INFO_UNDIRECTED 	= 8
+GRAPH_INFO_METRIC 		= 16
+GRAPH_INFO_COLORED 		= 32
+
+## SET LOADING METADATA
+
+legalSetInfoData = ["meta"]
+legalSetInfoFlags = {"meta" : ["type", "info"]}
+legalSetScopes = ["data", "elements", "set"]
+legalSetElements = {"data": [], "elements" : ["element"], "set" : ["elements", "weight"]}
+
+elementElementOrder = {0 : "id", 1 : "weight"}
+edgeLegalColors = ["black", "blue", "green", "purple", "red", "yellow"]
+
+
+SET_INFO_WEIGHTED = 1
+SET_INFO_UNWEIGHTED = 2
 
 def getColor(color):
 	if(nonePattern.match(color)):
@@ -50,18 +101,3 @@ def colorToString(color):
 	elif(color == COLOR_BLACK):
 		return "Black"
 	return "None"
-
-# REGEX-patterns for parsing
-
-idPattern = re.compile("[iI][dD]?")
-weightPattern = re.compile("[wW][eE]?[iI]?[gG]?[hH]?[tT]?")
-positionPattern = re.compile("[pP][oO][sS][iI][tT][iI][oO][nN]")
-colorPattern = re.compile("[cC][oO][lL][oO][rR]")
-
-v1Pattern = re.compile("([vV][1])|([vV][eE][rR]?[tT]?[eE]?[xX]?[1])")
-v2Pattern = re.compile("([vV][2])|([vV][eE][rR]?[tT]?[eE]?[xX]?[2])")
-
-singlePattern = re.compile("[sS][iI][nN]?[gG]?[lL]?[eE]?")
-sequencePattern = re.compile("[sS][eE][qQ][uU][eE][nN][cC][eE]")
-
-sequenceValuePattern = re.compile("(\d)+-(\d)+")

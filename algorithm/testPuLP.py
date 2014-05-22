@@ -26,8 +26,6 @@ def run():
 
     setCover_model += sum(se[2]*x[se] for se in set_element_tuples)
 
-
-
     setCover_model.solve()
 
     for se in set_element_tuples:
@@ -35,9 +33,7 @@ def run():
             print se
 
 
-
-
-
 def setCost(set):
     return sum(element for element in set)
+
 run()
